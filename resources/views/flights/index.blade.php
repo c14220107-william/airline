@@ -6,7 +6,13 @@
 <h1 class="text-2xl font-bold mb-6">Airplane Booking System</h1>
 <div class="container mx-auto p-4">
     <h1 class="text-2xl font-bold text-center mb-8">Airplane Booking System</h1>
+
+    @if (Auth::check() && Auth::user()->role == 'admin')
     <a href="{{ route('flights.create') }}" class="mb-4 inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Tambah secara manual</a>
+
+
+        
+    @endif
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach ($flights as $flight)

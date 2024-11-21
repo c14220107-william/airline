@@ -56,14 +56,18 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:4|confirmed',
         ]);
+
+
         
 
     
         
         $role = 'user';  // Default role adalah 'user'
         if (strpos($request->email, '@admin.com') !== false) {
-            $role = 'admin';  // Jika email mengandung '@hrdcompany.com', set role sebagai 'admin'
+            $role = 'admin';
         }
+
+        
         
 
         
