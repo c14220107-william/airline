@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('flights', function (Blueprint $table) {
             $table->id();
-            $table->string('flight_code', 5)->unique();
+            $table->string('flight_code', 10)->unique();
             $table->string('origin', 3);
             $table->string('destination', 3);
             $table->dateTime('departure_time');

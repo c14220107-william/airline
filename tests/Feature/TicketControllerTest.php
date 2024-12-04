@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Flight;
 use App\Models\Ticket;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -11,12 +12,14 @@ class TicketControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
+    /** unit test
      * Test menampilkan daftar tiket dari penerbangan tertentu.
      */
     public function test_can_view_ticket_list_for_flight()
     {
-        $this->withoutMiddleware(); // Melewati semua middleware
+        
+        $user = User::factory()->create(); // Buat pengguna
+        $this->actingAs($user); // Autentikasi pengguna
 
         $flight = Flight::factory()->create();
         Ticket::factory()->count(3)->create(['flight_id' => $flight->id]);
@@ -27,11 +30,13 @@ class TicketControllerTest extends TestCase
         $response->assertViewHas('tickets');
     }
 
-    /**
+    /** integration test
      * Test memproses pemesanan tiket baru.
      */
     public function test_can_book_ticket_for_flight()
     {
+        $user = User::factory()->create(); // Buat pengguna
+        $this->actingAs($user); // Autentikasi pengguna
         $flight = Flight::factory()->create();
         $ticketData = [
             'flight_id' => $flight->id,
@@ -46,11 +51,13 @@ class TicketControllerTest extends TestCase
         $this->assertDatabaseHas('tickets', $ticketData);
     }
 
-    /**
+    /** integration
      * Test mengonfirmasi boarding penumpang.
      */
     public function test_can_confirm_boarding_for_ticket()
     {
+        $user = User::factory()->create(); // Buat pengguna
+        $this->actingAs($user); // Autentikasi pengguna
         $ticket = Ticket::factory()->create(['is_boarding' => 0]);
 
         $response = $this->put(route('ticket.board', ['ticket' => $ticket->id]));
@@ -63,11 +70,13 @@ class TicketControllerTest extends TestCase
         ]);
     }
 
-    /**
+    /** integration
      * Test menghapus tiket jika belum boarding.
      */
     public function test_can_delete_ticket_if_not_boarded()
     {
+        $user = User::factory()->create(); // Buat pengguna
+        $this->actingAs($user); // Autentikasi pengguna
         $ticket = Ticket::factory()->create(['is_boarding' => 0]);
 
         $response = $this->delete(route('ticket.delete', ['ticket' => $ticket->id]));
@@ -76,11 +85,13 @@ class TicketControllerTest extends TestCase
         $this->assertDatabaseMissing('tickets', ['id' => $ticket->id]);
     }
 
-    /**
+    /** integration test
      * Test tidak bisa menghapus tiket jika sudah boarding.
      */
     public function test_cannot_delete_ticket_if_boarded()
     {
+        $user = User::factory()->create(); // Buat pengguna
+        $this->actingAs($user); // Autentikasi pengguna
         $ticket = Ticket::factory()->create(['is_boarding' => 1]);
 
         $response = $this->delete(route('ticket.delete', ['ticket' => $ticket->id]));

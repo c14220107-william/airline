@@ -31,7 +31,7 @@ class FlightController extends Controller
     public function store(Request $request){
 
         $request->validate([
-            'flight_code' => 'required|string|unique:flights,flight_code',
+            'flight_code' => 'required|string|unique:flights,flight_code|min:5|max:5',
             'origin' => 'required|string|max:3',
             'destination' => 'required|string|max:3',
             'departure_time' => 'required|date|after:now',
