@@ -29,7 +29,7 @@ class AuthController extends Controller
             // }
 
             // Default redirect jika role tidak ditemukan
-            return redirect('/flights');
+            return redirect()->route('flights.index');
         }
 
         // Jika login gagal, kembali ke halaman login dengan error

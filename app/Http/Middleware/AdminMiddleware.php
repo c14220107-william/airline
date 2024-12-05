@@ -20,6 +20,6 @@ class AdminMiddleware
             return $next($request);
         }
     
-        return redirect('/login'); // Arahkan ke halaman lain jika bukan admin
+        return redirect('/login'); 
     }
 }

@@ -23,7 +23,7 @@ class AuthBoundaryTest extends TestCase
         $this->assertGuest();
     }
 
-    
+    //unit test
     public function test_login_with_maximum_email_length()
     {
         $email = str_repeat('a', 243) . '@example.com'; // Max length = 255
@@ -40,7 +40,9 @@ class AuthBoundaryTest extends TestCase
         $response->assertRedirect('/flights');
         $this->assertAuthenticatedAs($user);
     }
+    
 
+    //unit test
     public function test_login_with_invalid_email_format()
     {
         $response = $this->post(route('login'), [
@@ -52,7 +54,7 @@ class AuthBoundaryTest extends TestCase
         $this->assertGuest();
     }
 
-    // Register boundary tests
+    // Register boundary tests unit test
     public function test_register_with_empty_fields()
     {
         $response = $this->post(route('register'), [
@@ -63,7 +65,9 @@ class AuthBoundaryTest extends TestCase
 
         $response->assertSessionHasErrors(['name', 'email', 'password']);
     }
+    
 
+    //unit test
     public function test_register_with_invalid_password_length()
     {
         $response = $this->post(route('register'), [
